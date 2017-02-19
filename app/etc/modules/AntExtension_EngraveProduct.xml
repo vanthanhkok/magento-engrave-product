@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<config>
+  <modules>
+    <AntExtension_EngraveProduct>
+      <active>true</active>
+      <codePool>local</codePool>
+      <version>0.1.0</version>
+    </AntExtension_EngraveProduct>
+  </modules>
+</config>
