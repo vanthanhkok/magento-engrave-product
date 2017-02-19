@@ -1,0 +1,207 @@
+<?php $_product = $this->getProduct(); ?>
+<div id="engravePopup" style="display: none">
+    <div id="overrelay">
+
+    </div>
+    <div id="engraveContent">
+        <div id="closeEngraveModal">
+            <i class="fa fa-times-circle-o" aria-hidden="true"></i>
+        </div>
+        <div class="contentInner">
+            <div id="loadingPopup">
+                <div class="loading"></div>
+            </div>
+            <div class="left_Area">
+                <canvas id="engrave_area" style="width: 100%; height: 100%"></canvas>
+            </div>
+            <div class="right_Area">
+                <div class="full_width">
+                    <textarea id="custom_text" rows="5" cols="43" maxlength="300">Type words here...</textarea>
+                </div>
+                <div class="haft_select">
+                    <div class="col-part">
+                        <select id="custome_font" class="cfont">
+                            <option value="Open Sans">Font</option>
+                            <option value="Open Sans">Open Sans</option>
+                            <option value="Time New Roman">Time New Roman</option>
+                            <option value="Arial">Arial</option>
+                        </select>
+                    </div>
+                    <div class="col-part">
+                        <select id="custome_size">
+                            <option value="20" selected="selected">Size</option>
+                            <option value="20">20</option>
+                            <option value="30">30</option>
+                            <option value="40">40</option>
+                        </select>
+                    </div>
+                </div>
+                <button type="button" class="con-cs-butt comfirm-text" id="confirmDesign">Confirm Your Design</button>
+                <button type="button" class="green add_to_cart" id="addToCartEngrave" data-file="" data-product="<?php echo $_product->getId() ?>"><?php echo $this->__('Add to cart') ?></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    jQuery(function () {
+        var imageBase = "<?php echo $this->getBaseImage()  ?>";
+        direction = "horizontal";
+        canvas = new fabric.Canvas('engrave_area');
+        var canvas_width = jQuery( window ).width();
+        if(canvas_width > 640){
+            canvas.setWidth(300);
+            canvas.setHeight(280);
+        }else if(canvas_width >= 320 && canvas_width <= 640){
+            canvas.setWidth(200);
+            canvas.setHeight(200);
+        }else if(canvas_width < 320){
+            canvas.setWidth(200);
+            canvas.setHeight(200);
+        }
+        fabric.Image.fromURL(imageBase, function(img) {
+            img.set('left', 0).set('top', 0);
+            img.lockMovementX = true;
+            img.lockMovementY = true;
+            img.width = canvas.width;
+            img.height = canvas.height;
+            img.selectable = false;
+            canvas.add(img);
+            canvas.sendToBack(img);
+        });
+        text = new fabric.Text('', {
+            fontFamily:jQuery('#custome_font').val(),
+            fontSize: jQuery('#custome_size').val()
+        });
+        text2 = new fabric.Text('', {
+            fontFamily:jQuery('#custome_font').val(),
+            fontSize: jQuery('#custome_size').val()
+        });
+        text.setOpacity(0.8);
+        text2.setOpacity(0.8);
+        text.setShadow({
+            color: 'white',
+            blur: -10,
+            offsetX: 1.5,
+            offsetY: 1.5
+        });
+        if(direction == 'vertical'){
+            text.setLineHeight(0.7);
+            text2.setLineHeight(0.7);
+        }
+        text2.setShadow({
+            color: 'white',
+            blur: -10,
+            offsetX: 1.5,
+            offsetY: 1.5
+        });
+        text2.setControlsVisibility({
+            tl: false,
+            tr: false,
+            br: false,
+            bl: false,
+            ml: false,
+            mt: false,
+            mr: false,
+            mb: false,
+            mtr: false
+        });
+        text.selectable = false;
+        text2.setOpacity(0);
+        canvas.add(text);
+        canvas.add(text2);
+        canvas.observe("object:moving", function (e) {
+            var obj = e.target;
+            text.setTop(obj.top);
+            text.setLeft(obj.left);
+        });
+
+        Event.observe('custom_text', 'keyup', function(){
+            canvas.setActiveObject(text2);
+            atext = jQuery(this).val();
+            if(direction == 'vertical') {
+                newText = '';
+                for(var i =0 ;i<atext.length;i++){
+                    newText += atext[i]+'\n';
+                }
+                text2.set({'text':newText, 'textAlign':'center'});
+                text.set({'text':newText, 'textAlign':'center'});
+            }else{
+                text2.set({'text':atext});
+                text.set({'text':atext});
+            }
+            canvas.renderAll();
+        });
+        Event.observe('custome_font', 'change', function(){
+            text2.setFontFamily(jQuery(this).val());
+            text.setFontFamily(jQuery(this).val());
+            setInterval(function(){
+                canvas.renderAll();
+            },100);
+            canvas.renderAll();
+        });
+        Event.observe('custome_size', 'change', function(){
+            var prefontsize = text.getFontSize();
+            text2.setFontSize(jQuery(this).val());
+            text.setFontSize(jQuery(this).val());
+            canvas.renderAll();
+        });
+        Event.observe('addToCartEngrave','click',function () {
+            jQuery('#loadingPopup').show();
+            var design = jQuery('#addToCartEngrave').data('file');
+            var product  = jQuery('#addToCartEngrave').data('product');
+            if(design){
+                var addToCart = new Ajax.Request(
+                    '/engraveproduct/Design/Add',
+                    {
+                        method : 'post',
+                        onSuccess : function (transport) {
+                            var result = transport.responseText.evalJSON();
+                            if(result.success){
+                                window.location.href = '<?php echo Mage::helper('checkout/cart')->getCartUrl(); ?>';
+                                jQuery('#loadingPopup').hide();
+                            }
+                            else {
+                                if(result.error != undefined || result.error != ''){
+                                    alert(result.error);
+                                }
+                            }
+                        },
+                        parameters : {design :design , product: product}
+                    }
+                )
+            }
+        });
+        Event.observe('confirmDesign','click',function(){
+           jQuery('#loadingPopup').show();
+           canvas.deactivateAll().renderAll();
+           var source = canvas.toDataURL('image/png');
+
+           var saveAjax = new Ajax.Request(
+               '/engraveproduct/Design/Save',
+               {
+                   method : 'post',
+                   onSuccess : function (transport) {
+                       var result = transport.responseText.evalJSON();
+                       if(result.success){
+                           if(result.path != ''){
+                               jQuery('#loadingPopup').hide();
+                               $('custome_size').disabled = true;
+                               $('custome_font').disabled = true;
+                               $('confirmDesign').disabled = true;
+                               $('custom_text').disabled = true;
+                               jQuery('#addToCartEngrave').data('file',result.path);
+                           }
+                       }
+                       else {
+                           if(result.error != undefined || result.error != ''){
+                               alert(result.error);
+                           }
+                       }
+                   },
+                   parameters : {source :source}
+               }
+           )
+        });
+    })
+</script>

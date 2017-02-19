@@ -1,0 +1,33 @@
+<?xml version="1.0"?>   
+<layout version="0.1.0">
+  <catalog_product_view translate="label">
+      <reference name="head">
+          <action method="addJs"><script>EngraveProduct/fabric.js</script></action>
+          <action method="addJs"><script>EngraveProduct/engrave.js</script></action>
+          <action method="addItem">
+              <type>skin_css</type>
+              <name>engrave/engrave.css</name>
+          </action>
+      </reference>
+      <reference name="product.info.addtocart">
+          <block type="engraveproduct/addengrave"
+                 name="engrave.button"
+                 as="engrave"
+                 template="engrave/button.phtml"/>
+          <block type="engraveproduct/addengrave"
+                 name="engrave.modal"
+                 as="engrave.modal"
+                 template="engrave/modal.phtml"/>
+      </reference>
+  </catalog_product_view>
+  <checkout_cart_index translate="label">
+      <reference name="checkout.cart">
+          <action method="addItemRender">
+              <type>simple</type>
+              <block>checkout/cart_item_renderer</block>
+              <template>engrave/checkout/cart/item/default.phtml</template>
+          </action>
+      </reference>
+  </checkout_cart_index>
+</layout>   
+	
