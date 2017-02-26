@@ -51,7 +51,7 @@ class AntExtension_EngraveProduct_Model_Product_Attribute_Backend_Image extends 
             return;
         }
 
-        $path = Mage::getBaseDir('media') . DS . 'catalog' . DS . 'product' . DS;
+        $path = Mage::getBaseDir('media') . DS . 'engrave_upload' . DS;
 
         try {
             $uploader = new Mage_Core_Model_File_Uploader($this->getAttribute()->getName());
@@ -63,7 +63,6 @@ class AntExtension_EngraveProduct_Model_Product_Attribute_Backend_Image extends 
                 "validate"
             );
             $result = $uploader->save($path);
-
             $object->setData($this->getAttribute()->getName(), $result['file']);
             $this->getAttribute()->getEntity()->saveAttribute($object, $this->getAttribute()->getName());
         } catch (Exception $e) {
@@ -74,4 +73,5 @@ class AntExtension_EngraveProduct_Model_Product_Attribute_Backend_Image extends 
             return;
         }
     }
+
 }

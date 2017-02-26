@@ -103,8 +103,26 @@ div#loadingPopup {
     z-index: 111;
     display: none;
 }
-
+.loadingOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.63);
+    z-index: 111;
+    display: none;
+}
 div#loadingPopup .loading {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: 112;
+    background: url('images/loading.svg') center center no-repeat;
+    left: 0;
+    background-size: 70px 70px;
+}
+div.loadingOverlay .loading {
     width: 100%;
     height: 100%;
     position: absolute;
@@ -132,4 +150,79 @@ select#custome_font[disabled] {
 button#confirmDesign[disabled] {
     cursor: no-drop;
     background: #ccc;
+}
+
+div#uploadpic {
+    width: 80px;
+    height: 80px;
+    border: 1px #b74173 dashed;
+    background: url('images/plus.png') center center no-repeat;
+    background-size: 30px 30px;
+    cursor: pointer;
+    background-position-y: 17px;
+}
+
+div#uploadpic span {
+    display: block;
+    text-align: center;
+    padding-top: 54px;
+    color: #b74173;
+}
+
+ul#control > li {
+    display: inline-block;
+    height: 30px;
+    padding: 0 7px;
+}
+
+ul#control {
+    text-align: center;
+}
+
+ul#control > li > button {
+    width: 30px;
+    height: 30px;
+    text-indent: -999px;
+    overflow: hidden;
+    background: none;
+    border: none;
+}
+ul#control > li > button {
+    background-image: url('images/control.png');
+    background-repeat: no-repeat;
+    display: block;
+}
+
+ul#control > li > button#moveLeft {
+    background-position: 2px 5px;
+}
+
+ul#control > li > button#moveRight {
+    background-position: -27px 5px;
+}
+
+
+ul#control > li > button#moveTop {
+    background-position: -58px 5px;
+}
+ul#control > li > button#moveDown {
+    background-position: -85px 5px;
+}
+ul#control > li > button#zoomIn {
+    background-position: -112px 5px;
+}
+ul#control > li > button#zoomOut {
+    background-position: -141px 5px;
+}
+ul#control > li > button#rotateLeft {
+    background-position: -170px 5px;
+}
+ul#control > li > button#rotateRight {
+    background-position: -198px 5px;
+}
+div#frameImage {
+    text-align: center;
+}
+div#frameImage .canvas-container {
+    margin: 0 auto;
 }

@@ -7,16 +7,16 @@
         </engrave>
 	  </tabs>
 	  <sections>
-		<engraveimage  translate="label" module="engraveproduct">                    
+		<engraveimage  translate="label" module="engraveproduct">
 		<label>Engrave Image</label>
 		<tab>engrave</tab>
 		<frontend_type>text</frontend_type>
 		<sort_order>2</sort_order>
 		<show_in_default>1</show_in_default>
 		<show_in_website>1</show_in_website>
-		<show_in_store>0</show_in_store>            
+		<show_in_store>0</show_in_store>
 					<groups>
-				      <imagesize translate="label"> 
+				      <imagesize translate="label">
 					  <label>Size</label>
 					  <frontend_type>text</frontend_type>
 					  <sort_order>1</sort_order>
@@ -44,16 +44,16 @@
 					   </imagesize>
 					</groups>
 		</engraveimage>
-		<generalsetting  translate="label" module="engraveproduct">                    
+		<generalsetting  translate="label" module="engraveproduct">
 		<label>General</label>
 		<tab>engrave</tab>
 		<frontend_type>text</frontend_type>
 		<sort_order>1</sort_order>
 		<show_in_default>1</show_in_default>
 		<show_in_website>1</show_in_website>
-		<show_in_store>0</show_in_store>            
+		<show_in_store>0</show_in_store>
 					<groups>
-				      <extension translate="label"> 
+				      <extension translate="label">
 					  <label>General</label>
 					  <frontend_type>text</frontend_type>
 					  <sort_order>0</sort_order>
@@ -74,5 +74,42 @@
 					   </extension>
 					</groups>
 		</generalsetting>
+		<engraveframe  translate="label" module="engraveproduct">
+			  <label>Engrave Frame</label>
+			  <tab>engrave</tab>
+			  <frontend_type>text</frontend_type>
+			  <sort_order>3</sort_order>
+			  <show_in_default>1</show_in_default>
+			  <show_in_website>1</show_in_website>
+			  <show_in_store>0</show_in_store>
+			  <groups>
+				  <framesize translate="label">
+					  <label>Size</label>
+					  <frontend_type>text</frontend_type>
+					  <sort_order>1</sort_order>
+					  <show_in_default>1</show_in_default>
+					  <show_in_website>1</show_in_website>
+					  <show_in_store>0</show_in_store>
+					  <fields>
+						  <width translate="label">
+							  <label>Width</label>
+							  <frontend_type>text</frontend_type>
+							  <sort_order>0</sort_order>
+							  <show_in_default>1</show_in_default>
+							  <show_in_website>1</show_in_website>
+							  <show_in_store>0</show_in_store>
+						  </width>
+						  <height translate="label">
+							  <label>Height</label>
+							  <frontend_type>text</frontend_type>
+							  <sort_order>0</sort_order>
+							  <show_in_default>1</show_in_default>
+							  <show_in_website>1</show_in_website>
+							  <show_in_store>0</show_in_store>
+						  </height>
+					  </fields>
+				  </framesize>
+			  </groups>
+		  </engraveframe>
 	  </sections>
 </config>

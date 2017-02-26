@@ -1,0 +1,29 @@
+<?php
+$_htmlId = $this->getElement()->getHtmlId();
+$_htmlClass = $this->getElement()->getClass();
+$_htmlName = $this->getElement()->getName();
+$_readonly = $this->getElement()->getReadonly();
+$value = $this->getElement()->getValue();
+
+?>
+<tr>
+    <td class="label"><label for="<?php echo $_htmlId ?>"><?php echo $this->getElement()->getLabel() ?></label></td>
+    <td class="value">
+        <?php if($value) : ?>
+            <a href="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA).'/engrave_upload/'.$value ?>" onclick="imagePreview('engraveimage_image'); return false;">
+                <img src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA).'/engrave_upload/'.$value ?>" id="<?php echo $_htmlId ?>" title="<?php echo $value ?>" alt="<?php echo $value ?>" height="22" width="22" class="small-image-preview v-middle">
+            </a>
+        <?php endif; ?>
+        <input id="<?php echo $_htmlId ?>" name="<?php echo $_htmlName ?>" value="" class="input-file" type="file">
+        <?php if($value) : ?>
+            <span class="delete-image">
+                <input type="checkbox" name="product[<?php echo $_htmlName ?>][delete]" value="1"
+                       class="checkbox" id="<?php echo $_htmlId ?>_delete">
+                <label for="<?php echo $_htmlId ?>_delete"> Delete Image</label>
+                <input
+                    type="hidden" name="product[<?php echo $_htmlName ?>][value]" value="<?php echo $value ?>">
+            </span>
+        <?php endif; ?>
+    </td>
+    <td class="scope-label"><span class="nobr"></span></td>
+</tr>

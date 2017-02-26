@@ -1,4 +1,4 @@
-<?php if($this->hasEngrave()) : ?>
+<?php if($this->hasEngrave() && $this->getConfigEngrave('engravestyle') == 1 ) : ?>
     <button type="button" class="button btn-cart"
             onclick="openEngravePopup()"><span><span><i class="icon-pencil"></i><?php echo $this->__('Add Engrave') ?></span></span>
     </button>

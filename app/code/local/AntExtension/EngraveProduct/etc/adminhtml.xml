@@ -16,6 +16,10 @@
 											<title>Engrave Image Section</title>
 											<sort_order>2</sort_order>
 										</engraveimage>
+										<engraveframe translate="title" module="engraveproduct">
+											<title>Engrave Frame Section</title>
+											<sort_order>3</sort_order>
+										</engraveframe>
 									</children>
 								</config>
 							</children>

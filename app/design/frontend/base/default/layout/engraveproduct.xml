@@ -2,9 +2,9 @@
 <layout version="0.1.0">
   <catalog_product_view translate="label">
       <reference name="head">
-          <action method="addJs"><script>EngraveProduct/fabric.js</script></action>
-          <action method="addJs"><script>EngraveProduct/engrave.js</script></action>
-          <action method="addItem">
+          <action method="addJs" ifconfig="generalsetting/extension/turnon"><script>EngraveProduct/fabric.js</script></action>
+          <action method="addJs" ifconfig="generalsetting/extension/turnon"><script>EngraveProduct/engrave.js</script></action>
+          <action method="addItem" ifconfig="generalsetting/extension/turnon">
               <type>skin_css</type>
               <name>engrave/engrave.css</name>
           </action>
@@ -13,16 +13,31 @@
           <block type="engraveproduct/addengrave"
                  name="engrave.button"
                  as="engrave"
-                 template="engrave/button.phtml"/>
+                 template="engrave/button.phtml" ifconfig="generalsetting/extension/turnon"/>
           <block type="engraveproduct/addengrave"
                  name="engrave.modal"
                  as="engrave.modal"
-                 template="engrave/modal.phtml"/>
+                 template="engrave/modal.phtml" ifconfig="generalsetting/extension/turnon"/>
       </reference>
   </catalog_product_view>
+
+  <engraveproduct_catalog_product_view>
+      <reference name="product.info.media">
+          <action method="setTemplate" ifconfig="generalsetting/extension/turnon">
+              <template>engrave/product/view/media.phtml</template>
+          </action>
+          <block type="engraveproduct/addengrave" name="engrave.insert.image.to.frame" template="engrave/product/view/frame.phtml"/>
+      </reference>
+      <reference name="product.info.addtocart">
+          <action method="setTemplate" ifconfig="generalsetting/extension/turnon">
+              <template>engrave/product/view/addtocart.phtml</template>
+          </action>
+      </reference>
+  </engraveproduct_catalog_product_view>
+
   <checkout_cart_index translate="label">
       <reference name="checkout.cart">
-          <action method="addItemRender">
+          <action method="addItemRender" ifconfig="generalsetting/extension/turnon">
               <type>simple</type>
               <block>checkout/cart_item_renderer</block>
               <template>engrave/checkout/cart/item/default.phtml</template>

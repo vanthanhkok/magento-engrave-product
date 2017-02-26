@@ -1,0 +1,147 @@
+<div id="addImagetoFrame">
+    <div id="uploadpic">
+        <input type="file" id="inputAvatar" style="display: none;">
+        <span><?php echo $this->__('Add Avatar'); ?></span>
+    </div>
+</div>
+<div class="addEngraveCart">
+    <button type="button" class="con-cs-butt comfirm-text" id="confirmDesign">
+        <?php echo $this->__('Confirm design & Add to cart') ?>
+    </button>
+</div>
+<div style="clear: both"></div>
+<script>
+    jQuery(function(){
+        Event.observe('uploadpic','click',function () {
+            jQuery("#inputAvatar").trigger("click");
+        });
+
+        var avatarImg;
+        Event.observe('inputAvatar','change',function(el){
+            var target = el.target;
+            var reader = new FileReader();
+            reader.addEventListener("load", function () {
+                var imageUrl = this.result;
+                fabric.Image.fromURL(imageUrl, function(img) {
+                    img.set('left', 0).set('top', 0);
+                    img.width = canvas.width;
+                    img.height = canvas.height;
+                    img.selectable = true;
+                    canvas.add(img);
+                    canvas.setActiveObject(img);
+                    canvas.sendToBack(img);
+                    avatarImg = img;
+                });
+            }, false);
+
+            reader.readAsDataURL(target.files[0]);
+        });
+
+        Event.observe('moveLeft','click',function (el) {
+            var currentLeft = avatarImg.get('left');
+            avatarImg.set('left',currentLeft-5);
+            canvas.renderAll();
+        });
+        Event.observe('moveRight','click',function (el) {
+            if(avatarImg){
+                var currentRight = avatarImg.get('left');
+                avatarImg.set('left',currentRight+5);
+                canvas.renderAll();
+            }
+        });
+        Event.observe('moveTop','click',function (el) {
+            if(avatarImg){
+                var currentTop = avatarImg.get('top');
+                avatarImg.set('top',currentTop-5);
+                canvas.renderAll();
+            }
+        });
+        Event.observe('moveDown','click',function (el) {
+            if(avatarImg){
+                var currentDown = avatarImg.get('top');
+                avatarImg.set('top',currentDown+5);
+                canvas.renderAll();
+            }
+        });
+        Event.observe('zoomIn','click',function (el) {
+            if(avatarImg){
+                var currentWidth = avatarImg.getWidth();
+                var currentHeight = avatarImg.getHeight();
+                avatarImg.center();
+                avatarImg.setWidth(currentWidth * 1.25);
+                avatarImg.setHeight(currentHeight * 1.25);
+                canvas.renderAll();
+            }
+        });
+
+        Event.observe('zoomOut','click',function (el) {
+            if(avatarImg){
+                var currentWidth = avatarImg.getWidth();
+                var currentHeight = avatarImg.getHeight();
+                avatarImg.center();
+                avatarImg.setWidth(currentWidth * 0.75);
+                avatarImg.setHeight(currentHeight * 0.75);
+                canvas.renderAll();
+            }
+        });
+
+        Event.observe('rotateLeft','click',function (el) {
+            if(avatarImg){
+                var currentAngle = avatarImg.getAngle();
+                avatarImg.setAngle(currentAngle-15);
+                canvas.renderAll();
+            }
+        });
+
+        Event.observe('rotateRight','click',function (el) {
+            if(avatarImg){
+                var currentAngle = avatarImg.getAngle();
+                avatarImg.setAngle(currentAngle+15);
+                canvas.renderAll();
+            }
+        });
+        Event.observe('confirmDesign','click',function(){
+            jQuery('.loadingOverlay').show();
+            canvas.deactivateAll().renderAll();
+            var source = canvas.toDataURL('image/png');
+
+            var saveAjax = new Ajax.Request(
+                '/engraveproduct/Design/Save',
+                {
+                    method : 'post',
+                    onSuccess : function (transport) {
+                        var result = transport.responseText.evalJSON();
+                        if(result.success){
+                            new Ajax.Request(
+                                '/engraveproduct/Design/Add',
+                                {
+                                    method : 'post',
+                                    onSuccess : function (addtransport) {
+                                        var addResult = addtransport.responseText.evalJSON();
+                                        if(addResult.success){
+                                            window.location.href = '<?php echo Mage::helper('checkout/cart')->getCartUrl(); ?>';
+                                            jQuery('.loadingOverlay').hide();
+                                        }
+                                        else {
+                                            if(addResult.error != undefined || result.error != ''){
+                                                alert(addResult.error);
+                                            }
+                                        }
+                                    },
+                                    parameters : {design :result.path , product: <?php echo $this->getProduct()->getId(); ?>}
+                                }
+                            )
+                        }
+                        else {
+                            if(result.error != undefined || result.error != ''){
+                                alert(result.error);
+                            }
+                        }
+                    },
+                    parameters : {source :source}
+                }
+            )
+        });
+    });
+
+</script>

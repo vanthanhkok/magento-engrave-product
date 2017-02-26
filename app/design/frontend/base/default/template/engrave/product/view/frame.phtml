@@ -1,0 +1,55 @@
+<div id="frameImage">
+    <canvas id="engrave_frame"></canvas>
+    <ul id="control">
+        <li>
+            <button type="button" id="moveLeft">Left</button>
+        </li>
+        <li>
+            <button type="button" id="moveRight">Right</button>
+        </li>
+        <li>
+            <button type="button" id="moveTop">Top</button>
+        </li>
+        <li>
+            <button type="button" id="moveDown">Down</button>
+        </li>
+        <li>
+            <button type="button" id="zoomIn">Zoom In</button>
+        </li>
+        <li>
+            <button type="button" id="zoomOut">Zoom Out</button>
+        </li>
+        <li>
+            <button type="button" id="rotateLeft">Rotate Left</button>
+        </li>
+        <li>
+            <button type="button" id="rotateRight">Rotate Right</button>
+        </li>
+    </ul>
+
+</div>
+<div class="loadingOverlay">
+    <div class="loading"></div>
+</div>
+<script>
+    var imageFrame = "<?php echo $this->getFrameImage()  ?>";
+    canvas = new fabric.Canvas('engrave_frame');
+    var frame_w = <?php echo $this->Helper('engraveproduct')->getFrameWidth() ?>;
+    var frame_h = <?php echo $this->Helper('engraveproduct')->getFrameHeight() ?>;
+    canvas.setWidth(frame_w);
+    canvas.setHeight(frame_h);
+
+    fabric.Image.fromURL(imageFrame, function(img) {
+        img.set('left', 0).set('top', 0);
+        img.lockMovementX = true;
+        img.lockMovementY = true;
+        img.width = canvas.width;
+        img.height = canvas.height;
+        img.selectable = false;
+        canvas.add(img);
+        canvas.renderAll();
+    });
+    canvas.on('object:moving', function(options) {
+        console.log(options.e.clientX, options.e.clientY);
+    });
+</script>

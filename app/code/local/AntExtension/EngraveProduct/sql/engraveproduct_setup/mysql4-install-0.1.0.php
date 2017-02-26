@@ -19,7 +19,7 @@ $installer->addAttribute("catalog_product", "engrave",  array(
     "searchable" => false,
     "filterable" => false,
     "comparable" => false,
-	
+
     "visible_on_front"  => false,
     "unique"     => false,
     "note"       => "",
