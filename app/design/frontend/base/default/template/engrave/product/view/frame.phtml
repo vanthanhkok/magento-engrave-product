@@ -38,7 +38,27 @@
     var frame_h = <?php echo $this->Helper('engraveproduct')->getFrameHeight() ?>;
     canvas.setWidth(frame_w);
     canvas.setHeight(frame_h);
-
+    var rect = new fabric.Rect({
+        left: 0,
+        top: 0,
+        fill: 'white',
+        opacity : 0,
+        width: canvas.width,
+        height: canvas.height
+    });
+    rect.setControlsVisibility({
+        tl: true,
+        tr: true,
+        br: true,
+        bl: true,
+        ml: false,
+        mt: false,
+        mr: false,
+        mb: false,
+        mtr: false
+    });
+    rect.selectable = false;
+    canvas.add(rect);
     fabric.Image.fromURL(imageFrame, function(img) {
         img.set('left', 0).set('top', 0);
         img.lockMovementX = true;
@@ -47,9 +67,8 @@
         img.height = canvas.height;
         img.selectable = false;
         canvas.add(img);
+        canvas.sendToBack(img);
         canvas.renderAll();
     });
-    canvas.on('object:moving', function(options) {
-        console.log(options.e.clientX, options.e.clientY);
-    });
+
 </script>

@@ -17,12 +17,12 @@ class AntExtension_EngraveProduct_Model_Observer {
         $engraveframe = $form->getElement('engraveframe');
         if ($engraveimage) {
             $engraveimage->setRenderer(
-                Mage::app()->getLayout()->createBlock('engraveproduct/adminhtml_product_attribute_type_image')
+                Mage::app()->getLayout()->createBlock('engraveproduct/adminhtml_uploadimage')
             );
         }
         if ($engraveframe) {
             $engraveframe->setRenderer(
-                Mage::app()->getLayout()->createBlock('engraveproduct/adminhtml_product_attribute_type_image')
+                Mage::app()->getLayout()->createBlock('engraveproduct/adminhtml_uploadimage')
             );
         }
     }
@@ -31,11 +31,13 @@ class AntExtension_EngraveProduct_Model_Observer {
 
         $params = $observer->getEvent()->getAction()->getRequest()->getParams();
         $fullActionName = $observer->getEvent()->getAction()->getFullActionName();
+        $storeId = Mage::app()->getStore()->getStoreId();
         if($fullActionName == 'catalog_product_view') {
             $productId = $params['id'];
             $engraveStyle = Mage::getResourceModel('catalog/product')
-                          ->getAttributeRawValue($productId, 'engravestyle', $storeId = Mage::app()->getStore());
-            if($engraveStyle == 2) {
+                          ->getAttributeRawValue($productId, 'engravestyle',$storeId);
+            $activeEngrave = Mage::helper('engraveproduct')->checkProductEngrave($productId);
+            if($engraveStyle >=2 && $activeEngrave) {
                 Mage::app()->getLayout()->getUpdate()->addHandle('engraveproduct_' . $fullActionName);
             }
         }

@@ -1,11 +1,11 @@
 <?php   
-class AntExtension_EngraveProduct_Block_AddEngrave extends Mage_Catalog_Block_Product_View_Abstract {
+class AntExtension_Engraveproduct_Block_Addengrave extends Mage_Catalog_Block_Product_View_Abstract {
 
 
     protected $EngraveAttributeCode = 'engrave';
 
     public function getConfigEngrave($attribute_code){
-        $storeId = Mage::app()->getStore();
+        $storeId = Mage::app()->getStore()->getStoreId();
         $_product = $this->getProduct();
         $_resource = Mage::getSingleton('catalog/product')->getResource();
         $optionValue = $_resource->getAttributeRawValue($_product->getId(),$attribute_code,$storeId);

@@ -226,3 +226,47 @@ div#frameImage {
 div#frameImage .canvas-container {
     margin: 0 auto;
 }
+
+div#switchPopup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 999999999999;
+}
+
+div#switchPopup #switchoverrelay {
+    background: rgba(0, 0, 0, 0.51);
+    width: 100%;
+    height: 100%;
+}
+
+div#switchContent {
+    width: 50%;
+    height: 490px;
+    position: absolute;
+    top: calc(50% - 270px);
+    left: 25%;
+}
+
+div#switchContent .contentInner {
+    background: #fff;
+    -webkit-box-shadow: 0px 0px 7px 0px rgba(50, 50, 50, 0.65);
+    -moz-box-shadow: 0px 0px 7px 0px rgba(50, 50, 50, 0.65);
+    box-shadow: 0px 0px 7px 0px rgba(50, 50, 50, 0.65);
+    height: 100%;
+    padding: 9px;
+    position: relative;
+}
+
+div#closeSwitchModal {
+    text-align: center;
+    padding: 5px 0;
+}
+
+div#closeSwitchModal > i {
+    font-size: 40px;
+    color: #fff;
+    cursor: pointer;
+}

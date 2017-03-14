@@ -37,7 +37,7 @@ $installer->addAttribute("catalog_product", "engravestyle",  array(
     "label"    => "Type",
     "input"    => "select",
     "class"    => "",
-    "source"   => "engraveproduct/eav_entity_attribute_source_engravestyle",
+    "source"   => "engraveproduct/eav_attribute_source_engravestyle",
     "global"   => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_STORE,
     "visible"  => true,
     "required" => false,
@@ -55,7 +55,7 @@ $installer->addAttribute("catalog_product", "engravestyle",  array(
 
 $installer->addAttribute("catalog_product", "engraveimage",  array(
     "type"     => "varchar",
-    "backend"  => "engraveproduct/product_attribute_backend_image",
+    "backend"  => "engraveproduct/adminhtml_uploadimage",
     "frontend" => "",
     "label"    => "Image",
     "input"    => "image",
@@ -77,7 +77,7 @@ $installer->addAttribute("catalog_product", "engraveimage",  array(
 
 $installer->addAttribute("catalog_product", "engraveframe",  array(
     "type"     => "varchar",
-    "backend"  => "engraveproduct/product_attribute_backend_image",
+    "backend"  => "engraveproduct/adminhtml_uploadimage",
     "frontend" => "",
     "label"    => "Frame",
     "input"    => "image",

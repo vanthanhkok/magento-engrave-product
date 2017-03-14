@@ -6,7 +6,7 @@
  * Time: 12:13 CH
  */
 
-class AntExtension_EngraveProduct_Block_Adminhtml_Product_Attribute_Type_Image
+class AntExtension_Engraveproduct_Block_Adminhtml_Uploadimage
     extends Mage_Adminhtml_Block_Widget
     implements Varien_Data_Form_Element_Renderer_Interface {
     public function __construct()

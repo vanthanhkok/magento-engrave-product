@@ -1,3 +1,10 @@
+<?php $_product = $this->getProduct();
+$modeEngrave = $this->Helper('engraveproduct')->getConfigEngrave($_product->getId(),'engravestyle') ;
+$priceEngrave = $this->Helper('engraveproduct')->getConfigEngrave($_product->getId(),'engraveprice');
+?>
+<script>
+    var modeEngrave = <?php echo $modeEngrave ?>;
+</script>
 <div id="addImagetoFrame">
     <div id="uploadpic">
         <input type="file" id="inputAvatar" style="display: none;">
@@ -6,10 +13,65 @@
 </div>
 <div class="addEngraveCart">
     <button type="button" class="con-cs-butt comfirm-text" id="confirmDesign">
+        <?php if($modeEngrave==2) : ?>
         <?php echo $this->__('Confirm design & Add to cart') ?>
+        <?php endif;  ?>
+        <?php if($modeEngrave==3) : ?>
+            <?php echo $this->__('Confirm design & Add Engrave') ?>
+        <?php endif;  ?>
     </button>
 </div>
 <div style="clear: both"></div>
+<?php if($modeEngrave==3) : ?>
+    <div id="switchPopup" style="display: none">
+        <div id="switchoverrelay">
+
+        </div>
+        <div id="switchContent">
+            <div id="closeSwitchModal">
+                <i class="fa fa-times-circle-o" aria-hidden="true"></i>
+            </div>
+            <div class="contentInner">
+                <div id="loadingPopup">
+                    <div class="loading"></div>
+                </div>
+                <div id="switchOption">
+                    <div class="engrave_option">
+                        <div class="row">
+                            <div class="col-5">
+                                <div id="imageEngraveJoin">
+                                    <canvas id="EngraveJoin">
+
+                                    </canvas>
+                                </div>
+                            </div>
+                            <div class="col-5">
+                                <h3><?php echo $this->__('Add Engraving +'). ($priceEngrave > 0 ) ? Mage::helper('core')->currency($priceEngrave, true, false) : '' ?></h3>
+                                <button class="addengrave" type="button">Add Engrave</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="basic_option">
+                        <div class="row">
+                            <div class="col-5">
+                                <div id="imageJoin">
+                                    <canvas id="NotEngraveJoin">
+
+                                    </canvas>
+                                </div>
+                            </div>
+                            <div class="col-5">
+                                <h3><?php echo $this->__('Basic Style') ?> </h3>
+                                <button class="addengrave" type="button">Add To Cart Without Engrave</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <?php echo $this->getChildHtml('engrave.modal'); ?>
+<?php endif; ?>
 <script>
     jQuery(function(){
         Event.observe('uploadpic','click',function () {
@@ -22,6 +84,9 @@
             var reader = new FileReader();
             reader.addEventListener("load", function () {
                 var imageUrl = this.result;
+                if(avatarImg != undefined){
+                    canvas.remove(avatarImg);
+                }
                 fabric.Image.fromURL(imageUrl, function(img) {
                     img.set('left', 0).set('top', 0);
                     img.width = canvas.width;
@@ -31,10 +96,28 @@
                     canvas.setActiveObject(img);
                     canvas.sendToBack(img);
                     avatarImg = img;
+                    rect.selectable = true;
                 });
             }, false);
-
             reader.readAsDataURL(target.files[0]);
+        });
+
+        canvas.on('object:scaling', function(event) {
+            var posX = rect.get('left');
+            var posY = rect.get('top');
+            var posW = rect.width;
+            var posH = rect.height;
+            avatarImg.set('left',posX);
+            avatarImg.set('top',posY);
+            avatarImg.width = posW;
+            avatarImg.height =posH;
+        });
+
+        canvas.on('object:moving', function(event) {
+            var posX = rect.get('left');
+            var posY = rect.get('top');
+            avatarImg.set('left',posX);
+            avatarImg.set('top',posY);
         });
 
         Event.observe('moveLeft','click',function (el) {
@@ -106,31 +189,50 @@
             var source = canvas.toDataURL('image/png');
 
             var saveAjax = new Ajax.Request(
-                '/engraveproduct/Design/Save',
+                '<?php echo $this->getUrl('engraveproduct/Design/Save') ?>',
                 {
                     method : 'post',
                     onSuccess : function (transport) {
                         var result = transport.responseText.evalJSON();
                         if(result.success){
-                            new Ajax.Request(
-                                '/engraveproduct/Design/Add',
-                                {
-                                    method : 'post',
-                                    onSuccess : function (addtransport) {
-                                        var addResult = addtransport.responseText.evalJSON();
-                                        if(addResult.success){
-                                            window.location.href = '<?php echo Mage::helper('checkout/cart')->getCartUrl(); ?>';
-                                            jQuery('.loadingOverlay').hide();
-                                        }
-                                        else {
-                                            if(addResult.error != undefined || result.error != ''){
-                                                alert(addResult.error);
+                            if(modeEngrave==2){
+                                new Ajax.Request(
+                                    '<?php echo $this->getUrl('engraveproduct/Design/Add') ?>',
+                                    {
+                                        method : 'post',
+                                        onSuccess : function (addtransport) {
+                                            var addResult = addtransport.responseText.evalJSON();
+                                            if(addResult.success){
+                                                window.location.href = '<?php echo Mage::helper('checkout/cart')->getCartUrl(); ?>';
+                                                jQuery('.loadingOverlay').hide();
                                             }
-                                        }
-                                    },
-                                    parameters : {design :result.path , product: <?php echo $this->getProduct()->getId(); ?>}
-                                }
-                            )
+                                            else {
+                                                if(addResult.error != undefined || result.error != ''){
+                                                    alert(addResult.error);
+                                                }
+                                            }
+                                        },
+                                        parameters : {design :result.path , product: <?php echo $this->getProduct()->getId(); ?>}
+                                    }
+                                )
+                            }
+
+                            if(modeEngrave==3){
+                                var engravejoin = new fabric.Canvas('EngraveJoin');
+                                engravejoin.setWidth(500);
+                                engravejoin.setHeight(500);
+                                fabric.Image.fromURL(result.path, function(img) {
+                                    img.set('left', 0).set('top', 0);
+                                    img.lockMovementX = true;
+                                    img.lockMovementY = true;
+                                    img.width = 250;
+                                    img.height = 250;
+                                    img.selectable = false;
+                                    engravejoin.add(img);
+                                    engravejoin.renderAll();
+                                });
+                                openSwitchPopup();
+                            }
                         }
                         else {
                             if(result.error != undefined || result.error != ''){

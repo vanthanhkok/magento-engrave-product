@@ -6,7 +6,7 @@
  * Time: 1:56 CH
  */
 
-class AntExtension_EngraveProduct_DesignController extends Mage_Core_Controller_Front_Action {
+class AntExtension_Engraveproduct_DesignController extends Mage_Core_Controller_Front_Action {
 
     public function saveAction(){
         if($this->getRequest()->isPost()){
@@ -63,5 +63,9 @@ class AntExtension_EngraveProduct_DesignController extends Mage_Core_Controller_
                 $this->getResponse()->setBody(Mage::helper('core')->jsonEncode(array('success'=> true)));
             }
         }
+    }
+
+    public function testAction(){
+        echo __METHOD__;
     }
 }

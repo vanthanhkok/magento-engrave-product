@@ -32,9 +32,8 @@
  * @package    Mage_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class AntExtension_EngraveProduct_Model_Product_Attribute_Backend_Image extends Mage_Eav_Model_Entity_Attribute_Backend_Abstract
+class AntExtension_Engraveproduct_Model_Adminhtml_Uploadimage extends Mage_Eav_Model_Entity_Attribute_Backend_Abstract
 {
-
     /**
      * Save uploaded file and set its name to category
      *

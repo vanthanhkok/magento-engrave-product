@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config>
 	<modules>
-		<AntExtension_EngraveProduct>
-			<version>0.1.1</version>
-		</AntExtension_EngraveProduct>
+		<AntExtension_Engraveproduct>
+			<version>0.1.2</version>
+		</AntExtension_Engraveproduct>
 	</modules>
 	<frontend>
 		<routers>
 			<engraveproduct>
 				<use>standard</use>
 				<args>
-					<module>AntExtension_EngraveProduct</module>
+					<module>AntExtension_Engraveproduct</module>
 					<frontName>engraveproduct</frontName>
 				</args>
 			</engraveproduct>
@@ -26,7 +26,7 @@
 			<controller_action_layout_load_before>
 				<observers>
 					<engraveproduct_controller_action_layout_load_before>
-						<class>AntExtension_EngraveProduct_Model_Observer</class>
+						<class>AntExtension_Engraveproduct_Model_Observer</class>
 						<method>controllerActionLayoutLoadBefore</method>
 					</engraveproduct_controller_action_layout_load_before>
 				</observers>
@@ -45,7 +45,7 @@
 			<adminhtml_catalog_product_edit_prepare_form>
 				<observers>
 					<engraveproduct>
-						<class>AntExtension_EngraveProduct_Model_Observer</class>
+						<class>AntExtension_Engraveproduct_Model_Observer</class>
 						<method>customImageInput</method>
 					</engraveproduct>
 				</observers>
@@ -55,24 +55,24 @@
 	<global>
 		<helpers>
 			<engraveproduct>
-				<class>AntExtension_EngraveProduct_Helper</class>
+				<class>AntExtension_Engraveproduct_Helper</class>
 			</engraveproduct>
 		</helpers>
 		<blocks>
 			<engraveproduct>
-				<class>AntExtension_EngraveProduct_Block</class>
+				<class>AntExtension_Engraveproduct_Block</class>
 			</engraveproduct>
 		</blocks>
 		<models>
 			<engraveproduct>
-				<class>AntExtension_EngraveProduct_Model</class>
+				<class>AntExtension_Engraveproduct_Model</class>
 				<resourceModel>engraveproduct_mysql4</resourceModel>
 			</engraveproduct>
 		</models>
 		<resources>
 			<engraveproduct_setup>
 				<setup>
-					<module>AntExtension_EngraveProduct</module>
+					<module>AntExtension_Engraveproduct</module>
 					<class>Mage_Catalog_Model_Resource_Eav_Mysql4_Setup</class>
 				</setup>
 				<connection>

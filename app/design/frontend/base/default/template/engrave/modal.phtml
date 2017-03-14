@@ -152,7 +152,7 @@
             var product  = jQuery('#addToCartEngrave').data('product');
             if(design){
                 var addToCart = new Ajax.Request(
-                    '/engraveproduct/Design/Add',
+                    '<?php echo $this->getUrl('engraveproduct/Design/Add') ?>',
                     {
                         method : 'post',
                         onSuccess : function (transport) {
@@ -178,7 +178,7 @@
            var source = canvas.toDataURL('image/png');
 
            var saveAjax = new Ajax.Request(
-               '/engraveproduct/Design/Save',
+               '<?php echo $this->getUrl('engraveproduct/Design/Save') ?>',
                {
                    method : 'post',
                    onSuccess : function (transport) {

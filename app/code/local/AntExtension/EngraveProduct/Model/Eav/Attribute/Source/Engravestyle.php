@@ -1,5 +1,5 @@
 <?php
-class AntExtension_EngraveProduct_Model_Eav_Entity_Attribute_Source_EngraveStyle extends Mage_Eav_Model_Entity_Attribute_Source_Abstract
+class AntExtension_EngraveProduct_Model_Eav_Attribute_Source_Engravestyle extends Mage_Eav_Model_Entity_Attribute_Source_Abstract
 {
     /**
      * Retrieve all options array
@@ -10,7 +10,10 @@ class AntExtension_EngraveProduct_Model_Eav_Entity_Attribute_Source_EngraveStyle
     {
         if (is_null($this->_options)) {
             $this->_options = array(
-			
+                array(
+                    "label" => Mage::helper("eav")->__("Select"),
+                    "value" =>  0
+                ),
                 array(
                     "label" => Mage::helper("eav")->__("Insert Text To Image"),
                     "value" =>  1
@@ -20,6 +23,11 @@ class AntExtension_EngraveProduct_Model_Eav_Entity_Attribute_Source_EngraveStyle
                     "label" => Mage::helper("eav")->__("Insert Image To Frame"),
                     "value" =>  2
                 ),
+
+                array(
+                    "label" => Mage::helper("eav")->__("Both"),
+                    "value" =>  3
+                )
 	
             );
         }

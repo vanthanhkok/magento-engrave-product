@@ -32,6 +32,10 @@
           <action method="setTemplate" ifconfig="generalsetting/extension/turnon">
               <template>engrave/product/view/addtocart.phtml</template>
           </action>
+          <block type="engraveproduct/addengrave"
+                 name="engrave.modal"
+                 as="engrave.modal"
+                 template="engrave/modal.phtml"/>
       </reference>
   </engraveproduct_catalog_product_view>
 
